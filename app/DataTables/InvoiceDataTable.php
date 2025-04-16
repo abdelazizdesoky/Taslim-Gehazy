@@ -38,6 +38,7 @@ class InvoiceDataTable extends DataTable
             ->editColumn('customer.name', fn($item) => $item->customer?->name ?? '--')
             ->editColumn('admin.name', fn($item) => $item->admin?->name ?? '--')
             ->editColumn('supplier.name', fn($item) => $item->supplier?->name ?? '--')
+            ->editColumn('creator.name', fn($item) => $item->creator?->name ?? '--')
             ->editColumn('invoice_status', function ($item) {
                 return match ($item->invoice_status) {
                     1 => match ($item->invoice_type) {

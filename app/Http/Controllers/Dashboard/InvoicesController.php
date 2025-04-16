@@ -81,7 +81,7 @@ class InvoicesController extends Controller
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
         ]);
-
+//dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -110,13 +110,14 @@ class InvoicesController extends Controller
 
                 if ($request->contact_type == 'customer') {
                     $request->validate(['contact_id' => 'exists:customers,id']);
-                    $invoice['customer_id'] = $request->contact_id;
+                    $invoice->customer_id = $request->contact_id;
                 } else {
                     $request->validate(['contact_id' => 'exists:suppliers,id']);
-                    $invoice['supplier_id'] = $request->contact_id;
+                    $invoice->supplier_id = $request->contact_id;
                 }
             }
 
+            // حفظ الفاتورة
             $invoice->save();
 
             // حفظ المنتجات

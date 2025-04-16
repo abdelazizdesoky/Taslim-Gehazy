@@ -90,7 +90,10 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/report/generate', [ReportController::class, 'generate'])->name('report.generate');
         Route::get('/report/inventory', [ReportController::class, 'inventoryReport'])->name('report.inventory');
 
-        
+        Route::get('/test-session', function () {
+            session(['name' => 'Aziz']);
+            return 'Session set';
+        });
         
         // Data Migration
         Route::get('/migrate-data', [DataController::class, 'migrateData'])->name('migrate-data');

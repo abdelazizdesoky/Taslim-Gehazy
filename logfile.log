@@ -1,0 +1,42 @@
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-03-27_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-03-28_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-03-29_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-03-30_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-03-31_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-01_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-02_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-03_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-04_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-05_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-06_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-07_22-00-02.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-08_22-00-02.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-09_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-10_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-11_22-00-02.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-12_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-13_22-00-01.sql
+Database: , Username: , Host: , Password: 
+Database backup failed.
+Error Details: 
+Command Executed: mysqldump --column-statistics=0 -h  -P   -u  -p  > /mnt/srv/taslim/storage/app/backups/_2025-04-14_22-00-01.sql
+Database: taslim_app, Username: root, Host: 127.0.0.1, Password: taslimpass
+Database backup was successful. File saved at: /mnt/srv/taslim/storage/app/backups/taslim_app_2025-04-15_22-00-01.sql
