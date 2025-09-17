@@ -27,7 +27,9 @@ class BrandController extends Controller
             'brand_name' => 'required'
         ]);
 
-        Brand::create($request->all());
+         Brand::create([
+        'brand_name' => $request->brand_name
+    ]);
 
         session()->flash('add');
         return redirect()->back();
