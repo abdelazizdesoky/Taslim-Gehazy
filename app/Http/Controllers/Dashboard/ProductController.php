@@ -45,6 +45,7 @@ class ProductController extends Controller
             'type_id' => 'required|exists:product_types,id', // تأكد من أن type_id موجود في جدول product_types
             'detail_name' => 'required|string|max:255',
             'product_code' => 'required|string|max:255|unique:products,product_code', // كود المنتج يجب أن يكون فريدًا
+            'vendor_code' => 'required|string|max:255',
         ], [
 
             'product_name.required' => 'اسم المنتج مطلوب.',
@@ -52,6 +53,7 @@ class ProductController extends Controller
             'type_id.exists' => 'نوع المنتج المحدد غير موجود.',
             'detail_name.required' => 'تفاصيل المنتج مطلوبة.',
             'product_code.required' => 'كود المنتج مطلوب.',
+            'vendor_code.required' => 'كود المورد مطلوب.',
             'product_code.unique' => 'كود المنتج مستخدم بالفعل.',
         ]);
 
@@ -64,6 +66,7 @@ class ProductController extends Controller
             $products->type_id = $validatedData['type_id'];
             $products->detail_name = $validatedData['detail_name'];
             $products->product_code = $validatedData['product_code'];
+            $products->vendor_code = $validatedData['vendor_code'];
             $products->save();
 
 
@@ -100,6 +103,7 @@ class ProductController extends Controller
             $product->product_name = $request->product_name;
             $product->detail_name = $request->detail_name;
             $product->product_code = $request->product_code;
+            $product->vendor_code = $request->vendor_code;
             $product->save();
 
 

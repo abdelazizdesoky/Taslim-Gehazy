@@ -98,6 +98,17 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group" id="client-section">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="form-label">كود  المورد   </label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" name="vendor_code"  value="{{old('vendor_code')}}" class="form-control @error('vendor_code') is-invalid @enderror" required>
+                    </div>
+                </div>      
+
         
          <!--------------------------------------------------------------->  
                    

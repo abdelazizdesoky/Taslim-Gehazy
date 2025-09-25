@@ -107,6 +107,8 @@ class EmployeeInvoiceController extends Controller
     }
 
 
+    //----------------------------------------------------------------------------
+
     public function show($id)
     {
 
@@ -127,10 +129,11 @@ class EmployeeInvoiceController extends Controller
                 'products.id',
                 'products.product_name',
                 'products.product_code',
-                'ip.quantity' // الكمية من الجدول الوسيط
+                'products.vendor_code',
+                'ip.quantity' 
             )
                 ->join('invoice_products as ip', 'products.id', '=', 'ip.product_id')
-                ->where('ip.invoice_id', $id); // الربط بالفاتورة المحددة
+                ->where('ip.invoice_id', $id); 
         }])->findOrFail($id);
 
         // حساب الكمية الإجمالية من جدول invoice_products
@@ -144,6 +147,7 @@ class EmployeeInvoiceController extends Controller
                 'id' => $product->id,
                 'product_code' => $product->product_code ?? '', // استخدم `product_code` بدلاً من `serial_prefix`
                 'product_name' => $product->product_name ?? '',
+                'vendor_code' => $product->vendor_code ?? '', // إضافة vendor_code
                 'quantity' => $product->quantity ?? 0, // الكمية من جدول invoice_products
             ];
         });
@@ -169,12 +173,13 @@ class EmployeeInvoiceController extends Controller
             $invoiceId = $request->input('id');
             $serials = $request->input('serials');
 
-            // تنظيف السيريالات وإزالة التكرارات في نفس الطلب
-            $serialsArray = array_unique(array_filter(array_map('trim', explode("\n", $serials))));
+           
+
+           
+           $serialsArray = array_unique(array_filter(array_map('trim', explode("\n", $serials))));
 
             DB::beginTransaction();
 
-            // جلب السيريالات الحالية في الفاتورة الحالية فقط
             $existingSerialsInInvoice = SerialNumber::where('invoice_id', $invoiceId)
                 ->pluck('serial_number')
                 ->toArray();
@@ -188,12 +193,12 @@ class EmployeeInvoiceController extends Controller
                     continue;
                 }
 
-                // التحقق من التكرار في الفاتورة الحالية فقط
                 if (in_array($serial, $existingSerialsInInvoice)) {
                     $failedSerials[] = $serial . ' (مكرر في الفاتورة)';
                     continue;
                 }
 
+               
                 try {
                     SerialNumber::create([
                         'invoice_id' => $invoiceId,
@@ -201,11 +206,11 @@ class EmployeeInvoiceController extends Controller
                     ]);
 
                     $successfulSerials[] = $serial;
-                    $existingSerialsInInvoice[] = $serial; // تحديث القائمة لتجنب التكرار في نفس الطلب
+                    $existingSerialsInInvoice[] = $serial; 
                 } catch (\Exception $e) {
                     $failedSerials[] = $serial . ' (خطأ غير معروف)';
                 }
-            }
+           }
 
             // تحديث حالة الفاتورة إذا كان هناك سيريالات ناجحة
             if (!empty($successfulSerials)) {
@@ -216,7 +221,6 @@ class EmployeeInvoiceController extends Controller
 
             DB::commit();
 
-            // رسائل التنبيه
             if (!empty($successfulSerials)) {
                 session()->flash('add', 'تم إضافة السيريالات بنجاح: ' . implode(', ', $successfulSerials));
             }

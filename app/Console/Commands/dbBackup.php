@@ -54,7 +54,7 @@ class dbBackup extends Command
         // Build the mysqldump command
        // mysqldump --column-statistics=0 -h 127.0.0.1 -P 3306 -u root -ptaslimpass taslim_app > /mnt/srv/taslim/storage/app/backups/taslim_app_2025-03-27_08-02-40.sql
 
-        $command = "mysqldump --column-statistics=0 -h $host -P  $port -u $username -p'$password' $database > {$backupPath}";
+        $command = "mysqldump --column-statistics=0 -h $host -P  $port -u $username -p$password --ignore-table=taslim_app.activity_log  $database  > {$backupPath}";
         
     
         // Execute the command

@@ -118,7 +118,7 @@
                         @foreach($invoice->products as $product)
                             <tr>
                                 <td>
-                                    {{ $product->product_code }} - {{ $product->product_name }}  
+                                    {{ $product->product_code }} - {{ $product->product_name }}  - {{ $product->vendor_code }} 
                                 </td>
                                 <td>{{ $product->pivot->quantity }}</td>
                                

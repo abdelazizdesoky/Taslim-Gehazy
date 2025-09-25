@@ -128,7 +128,7 @@
 															$serialNumber = preg_replace($patterns, '', $serial->serial_number); 
 															$serialNumber = ltrim($serialNumber, '0'); 
 															$serialPrefix = substr($serialNumber, 0, 7); 
-															$product = \App\Models\Product::where('product_code', $serialPrefix)->first(); 
+															$product = \App\Models\Product::where('vendor_code', $serialPrefix)->first(); 
 
 														
 														@endphp

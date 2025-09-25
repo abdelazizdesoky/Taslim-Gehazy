@@ -357,7 +357,7 @@ class InvoicesController extends Controller
         $serialsGroupedByProduct = $serials->groupBy(function ($serial) {
             $serialNumber = ltrim($serial->serial_number, '0');
             $serialPrefix = substr($serialNumber, 0, 7); // استخراج أول 7 أرقام
-            $product = Product::where('product_code', $serialPrefix)->first();
+            $product = Product::where('vendor_code', $serialPrefix)->first();
             return $product ? $product->id : null; // إرجاع معرف المنتج
         });
 

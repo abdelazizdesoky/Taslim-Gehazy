@@ -71,18 +71,19 @@
             
             <div class="form-group">
                 <input type="text" class="form-control" id="serialInput" placeholder="أدخل السيريال هنا" autofocus>
-                <button type="button" class="btn btn-primary mt-2" id="startScanner">استخدام الكاميرا</button>
+                {{-- <button type="button" class="btn btn-primary mt-2" id="startScanner">استخدام الكاميرا</button> --}}
             </div>
             
             <div id="interactive" class="viewport" style="position: relative; width: 100%; height: 300px; display: none;">
                 <video autoplay="true" muted="true" playsinline="true"></video>
             </div>
             
-            <form class="form-horizontal" action="{{ route('employee.invoices.store') }}" method="post" autocomplete="off">
+            <!-- changed: add id to form so script can target it reliably -->
+            <form id="serialsForm" class="form-horizontal" action="{{ route('employee.invoices.store') }}" method="post" autocomplete="off">
                 @csrf
                 <input type="hidden" name="id" value="{{ $Invoices->id }}">
                 <input type="hidden" name="serials" id="serialsHiddenInput">
-                <div class="card-footer text-left">
+                <div class="card-footer text-right">
                     <button type="submit" class="btn btn-success waves-effect waves-light">تأكيد الإذن</button>
                 </div>
             </form>
@@ -94,7 +95,7 @@
 @endsection
 
 @section('js')
-<script src="{{ URL::asset('dashboard/js/quagga.min.js') }}"></script>
+{{-- <script src="{{ URL::asset('dashboard/js/quagga.min.js') }}"></script> --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const serialInput = document.getElementById('serialInput');
@@ -103,7 +104,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const serialsHiddenInput = document.getElementById('serialsHiddenInput');
     const startScannerBtn = document.getElementById('startScanner');
     const interactive = document.getElementById('interactive');
-    const form = document.querySelector('form');
+
+    // target the form by id first to avoid grabbing other forms on the page
+    const form = document.getElementById('serialsForm') || document.querySelector('form');
 
     // Total quantity from the server (passed from the controller)
     const totalQuantity = {{ $totalQuantity }};
@@ -149,25 +152,43 @@ document.addEventListener('DOMContentLoaded', function() {
     styleSheet.textContent = additionalStyles;
     document.head.appendChild(styleSheet);
 
-    function validateSerialForProducts(serial) {
-        // محاكاة منطق PHP باستخدام JavaScript
-        const patterns = [/^09\/I-/];
-        let cleanedSerial = serial;
-        for (let pattern of patterns) {
-            cleanedSerial = cleanedSerial.replace(pattern, '');
-        }
-        cleanedSerial = cleanedSerial.replace(/^0+/, '');
-        const serialPrefix = cleanedSerial.substring(0, 7);
-
-        const matchedProduct = invoiceProducts.find(product => {
-            return serialPrefix === product.product_code;
-        });
-
-        if (matchedProduct) {
-            return { isValid: true, product: matchedProduct };
-        }
-        return { isValid: false, product: null };
+function validateSerialForProducts(serial) {
+    const patterns = [/^09\/I-/];
+    let cleanedSerial = serial;
+    for (let pattern of patterns) {
+        cleanedSerial = cleanedSerial.replace(pattern, '');
     }
+    cleanedSerial = cleanedSerial.replace(/^0+/, '');
+    const serialPrefix = cleanedSerial.substring(0, 7);
+
+    // أولوية: vendor_code لو موجود
+    let matchedProduct = invoiceProducts.find(product => {
+        if (product.vendor_code && product.vendor_code.trim() !== "") {
+            return serialPrefix === product.vendor_code;
+        }
+        return false;
+    });
+
+    // لو مفيش vendor_code → fallback على product_code
+    if (!matchedProduct) {
+        matchedProduct = invoiceProducts.find(product => {
+            if (product.product_code && product.product_code.trim() !== "") {
+                return serialPrefix === product.product_code;
+            }
+            return false;
+        });
+    }
+
+    if (matchedProduct) {
+        return { isValid: true, product: matchedProduct };
+    }
+
+    // غير صالح
+    return { isValid: false, product: null };
+}
+
+
+
 
     async function checkSerialExistsGlobally(serial) {
         try {
@@ -186,13 +207,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (serials >= totalQuantity) {
             serialInput.disabled = true;
-            serialInput.placeholder = 'تم إدخال الكمية المطلوبة';
-            startScannerBtn.disabled = true;
-            alert(`تم إدخال الكمية المطلوبة (${totalQuantity})`);
+            serialInput.placeholder = '\u062a\u0645 \u0625\u062f\u062e\u0627\u0644 \u0627\u0644\u0643\u0645\u064a\u0629 \u0627\u0644\u0645\u0637\u0644\u0648\u0628\u0629';
+            if (startScannerBtn) startScannerBtn.disabled = true;
+            alert(`\u062a\u0645 \u0625\u062f\u062e\u0627\u0644 \u0627\u0644\u0643\u0645\u064a\u0629 \u0627\u0644\u0645\u0637\u0644\u0648\u0628\u0629 (${totalQuantity})`);
         } else {
             serialInput.disabled = false;
-            serialInput.placeholder = 'أدخل السيريال هنا';
-            startScannerBtn.disabled = false;
+            serialInput.placeholder = '\u0623\u062f\u062e\u0644 \u0627\u0644\u0633\u064a\u0631\u064a\u0627\u0644 \u0647\u0646\u0627';
+            if (startScannerBtn) startScannerBtn.disabled = false;
         }
     }
 
@@ -264,52 +285,63 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    form.addEventListener('submit', function(event) {
-        const serials = serialsList.querySelectorAll('.serial-item');
-        
-        if (serials.length !== totalQuantity) {
-            event.preventDefault();
-            alert(`يجب إدخال ${totalQuantity} سيريال. تم إدخال ${serials.length} فقط.`);
-            return;
-        }
+form.addEventListener('submit', function(event) {
+    const serials = Array.from(serialsList.querySelectorAll('.serial-item')).map(item => {
+        return item.querySelector('span strong').textContent;
     });
 
-    serialInput.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            const serial = serialInput.value.trim();
-            if (serial) {
-                if (createSerialItem(serial)) {
-                    serialInput.value = '';
-                }
+    if (serials.length !== totalQuantity) {
+        event.preventDefault();
+        alert(`\u064a\u062c\u0628 \u0625\u062f\u062e\u0627\u0644 ${totalQuantity} \u0633\u064a\u0631\u064a\u0627\u0644. \u062a\u0645 \u0625\u062f\u062e\u0627\u0644 ${serials.length} \u0641\u0642\u0637.`);
+        return;
+    }
+
+            // Join serials with newlines for plain text format
+        serialsHiddenInput.value = serials.join('\n');
+        console.log("\ud83d\udce6 Serial Data Ready:", serialsHiddenInput.value);
+});
+
+ serialInput.addEventListener('keypress', async function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        const serial = serialInput.value.trim();
+        if (serial) {
+            const added = await createSerialItem(serial);
+            if (added) {
+                serialInput.value = '';
             }
         }
-    });
+    }
+});
 
-    startScannerBtn.addEventListener('click', function() {
-        interactive.style.display = 'block';
-        Quagga.init({
-            inputStream: {
-                type: "LiveStream",
-                target: interactive,
-                constraints: { width: 640, height: 480, facingMode: "environment" }
-            },
-            decoder: { readers: ["code_128_reader"] }
-        }, function(err) {
-            if (err) { console.error(err); return; }
-            Quagga.start();
-        });
 
-        Quagga.onDetected(function(result) {
-            const serial = result.codeResult.code;
-            if (serial) {
-                if (createSerialItem(serial)) {
-                    Quagga.stop();
-                    interactive.style.display = 'none';
+    // Guard scanner setup in case the button was removed/commented out in the view
+    if (startScannerBtn) {
+        startScannerBtn.addEventListener('click', function() {
+            interactive.style.display = 'block';
+            Quagga.init({
+                inputStream: {
+                    type: "LiveStream",
+                    target: interactive,
+                    constraints: { width: 640, height: 480, facingMode: "environment" }
+                },
+                decoder: { readers: ["code_128_reader"] }
+            }, function(err) {
+                if (err) { console.error(err); return; }
+                Quagga.start();
+            });
+
+            Quagga.onDetected(function(result) {
+                const serial = result.codeResult.code;
+                if (serial) {
+                    if (createSerialItem(serial)) {
+                        Quagga.stop();
+                        interactive.style.display = 'none';
+                    }
                 }
-            }
+            });
         });
-    });
+    }
 
     updateSerialCount();
 });

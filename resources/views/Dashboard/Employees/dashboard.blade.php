@@ -14,6 +14,7 @@
             </div>
         </div>
         <div class="d-flex my-xl-auto right-content">
+            
 
             @if (Auth::guard('admin')->check())
                 @php $permission = Auth::guard('admin')->user()->permission; @endphp

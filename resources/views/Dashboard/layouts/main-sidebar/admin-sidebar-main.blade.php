@@ -3,12 +3,12 @@
 <aside class="app-sidebar sidebar-scroll">
     <div class="main-sidebar-header active">
         <a class="desktop-logo logo-light active" href="#"><img
-                src="{{ URL::asset('dashboard/img/brand/favicon.png') }}" class="main-logo ht-50" alt="logo"></a>
+                src="{{ URL::asset('dashboard/img/brand/favicona.png') }}" class="main-logo ht-50" alt="logo"></a>
         <a class="desktop-logo logo-dark active" href="#"><img
-                src="{{ URL::asset('dashboard/img/brand/logo-white.png') }}" class="main-logo dark-theme ht-50"
+                src="{{ URL::asset('dashboard/img/brand/logo.png') }}" class="main-logo dark-theme ht-50"
                 alt="logo"></a>
         <a class="logo-icon mobile-logo icon-light active" href="#"><img
-                src="{{ URL::asset('dashboard/img/brand/favicon.png') }}" class="logo-icon ht-50 " alt="logo"></a>
+                src="{{ URL::asset('dashboard/img/brand/favicona.png') }}" class="logo-icon ht-50 " alt="logo"></a>
         <a class="logo-icon mobile-logo icon-dark active" href="#"><img
                 src="{{ URL::asset('dashboard/img/brand/favicon-white.png') }}" class="logo-icon dark-theme ht-50 "
                 alt="logo"></a>

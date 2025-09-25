@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class SerialNumber extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $fillable = [
+        'serial_number',
+        'invoice_id'
+    ];
 
     public function invoice()
     {

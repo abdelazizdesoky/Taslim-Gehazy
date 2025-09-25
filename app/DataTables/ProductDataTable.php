@@ -63,6 +63,10 @@ class ProductDataTable extends DataTable
             ->title('اسم المنتج'),
             Column::make('product_code')
             ->title('كود المنتج'),
+            // Column::make('detail_name')
+            // ->title('تفاصيل المنتج'),
+            Column::make('vendor_code')
+            ->title('كود المورد'),
             Column::computed('actions')
                   ->exportable(false)
                   ->printable(false)

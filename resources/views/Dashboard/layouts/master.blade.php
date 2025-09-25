@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 @section('title')
-برنامج  تسليماتى 
+  تسليماتى - جهازى
 @endsection
 	<head>
 		<meta charset="UTF-8">

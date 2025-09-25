@@ -31,7 +31,7 @@
 <div class="container-fluid login-container">
     <div class="login-card">
         <div class="d-flex justify-content-center mb-5">
-            <a href="#"><img src="{{ URL::asset('dashboard/img/brand/favicon.png') }}" class="sign-favicon ht-100" alt="logo"></a>
+            <a href="#"><img src="{{ URL::asset('dashboard/img/brand/favicona.png') }}" class="sign-favicon ht-200" alt="logo"></a>
             <h1 class="main-logo1 ml-1 mr-0 my-auto tx-28"></h1>
         </div>
         <div class="main-signup-header text-center">

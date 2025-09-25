@@ -92,6 +92,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group" id="client-section">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label    ">كود المورد</label>
+                            </div>
+                            <div class="col-md-9">          
+                                        <input type="text" name="vendor_code" value="{{ $product->vendor_code }}" class="form-control @error('product_name') is-invalid @enderror" required>
+                            </div>
+                        </div>
+                    </div>      
+                    
 
                     <div class="card-footer text-left">
                         <button type="submit" class="btn btn-success waves-effect waves-light">حفظ التعديلات</button>
